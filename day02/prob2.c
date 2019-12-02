@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* read_input(char* file_name){
+char* 
+read_input(char* file_name){
   FILE* fd = fopen(file_name, "r");
   char* line = NULL;
   size_t linecap = 0;
@@ -11,7 +12,8 @@ char* read_input(char* file_name){
   return line;
 }
 
-int parse_input(char* line, int** out) {
+int 
+parse_input(char* line, int** out) {
   char* token;
   int array_size = 10;
   int* result = malloc(sizeof(int) * 10);
@@ -27,7 +29,8 @@ int parse_input(char* line, int** out) {
   return i;
 }
 
-int run(int* opcodes, int size) {
+int 
+run(int* opcodes, int size) {
   int pointer = 0;
   while (opcodes[pointer] != 99) {
     int op = opcodes[pointer];
@@ -54,7 +57,8 @@ int run(int* opcodes, int size) {
   return opcodes[0];
 }
 
-void print(const int* in, int size){
+void 
+print(const int* in, int size){
   for (int i = 0; i < size; i++)
     printf("%d,", in[i]);
   printf("\n\n");
@@ -74,16 +78,14 @@ main(){
 
       new_opcodes[1] = noun;
       new_opcodes[2] = verb;
-      
+
       int result = run(new_opcodes, size);
       free(new_opcodes);
       if (result == 19690720) {
         printf("Result = %d\n", 100 * noun + verb);
-	goto result_found;
       }
     }
   }
- result_found:
   free(line);
   free(opcodes);
   return 0;
