@@ -22,7 +22,7 @@ main(int argc, char** argv){
   while (v.size() > 0) {
     v = next_fuels(v, result);
   }
-  cout << result << '\n';
+  cout << "Result = " << result << '\n';
   return 0;
 }
 
