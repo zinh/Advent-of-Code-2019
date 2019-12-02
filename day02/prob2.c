@@ -17,9 +17,9 @@ int parse_input(char* line, int** out) {
   int* result = malloc(sizeof(int) * 10);
   int i = 0;
   while ((token = strsep(&line, ",")) != NULL) {
-    if (i > array_size) {
+    if (i >= array_size) {
       array_size += 10;
-      result = (int*)realloc(result, array_size);
+      result = realloc(result, sizeof(int) * array_size);
     }
     result[i++] = atoi(token);
   }
@@ -54,11 +54,12 @@ int run(int* opcodes, int size) {
   return opcodes[0];
 }
 
-void print(int* in, int size){
+void print(const int* in, int size){
   for (int i = 0; i < size; i++)
     printf("%d,", in[i]);
-  printf("\n");
+  printf("\n\n");
 }
+
 int
 main(){
   char* line;
@@ -67,9 +68,9 @@ main(){
   int size =  parse_input(line, &opcodes);
   for (int noun = 0; noun < 100; noun++) {
     for (int verb = 0; verb < 100; verb++) {
-      int *new_opcodes = malloc(sizeof(int) * size);
+      int *new_opcodes = NULL;
+      new_opcodes = malloc(sizeof(int) * size);
       memcpy(new_opcodes, opcodes, sizeof(int) * size);
-      print(new_opcodes, size);
 
       new_opcodes[1] = noun;
       new_opcodes[2] = verb;
@@ -77,11 +78,12 @@ main(){
       int result = run(new_opcodes, size);
       free(new_opcodes);
       if (result == 19690720) {
-	goto BREAK;
+        printf("Result = %d\n", 100 * noun + verb);
+	goto result_found;
       }
     }
   }
- BREAK:
+ result_found:
   free(line);
   free(opcodes);
   return 0;
