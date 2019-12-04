@@ -39,7 +39,7 @@ intersection(const vector<struct Point> line1, const vector<struct Point> line2)
 
 int
 route_distance(vector<struct Point> line, struct Point p) {
-  int distance = 0;
+  int distance = 1;
   for (auto p1 : line)
     if (p.x == p1.x && p.y == p1.y)
       break;
@@ -57,9 +57,11 @@ main(int argc, char** argv){
   vector<struct Point> intersections = intersection(line1, line2);
   int min_distance = INT32_MAX;
   for (auto p : intersections){
-    int distance = abs(p.x) + abs(p.y);
-    if (distance < min_distance)
-      min_distance = distance;
+    int distance1 = route_distance(line1, p);
+    int distance2 = route_distance(line2, p);
+    int total_distance = distance1 + distance2;
+    if (min_distance > total_distance)
+      min_distance = total_distance;
   }
   cout << "Result: " << min_distance << '\n';
   return 0;
