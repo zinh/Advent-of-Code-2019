@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -18,15 +19,18 @@ void print_line(const vector<struct Point>& line) {
     cout << '(' << point.x << ',' << point.y << ')' << '\n';
 }
 
+string point_to_string(const struct Point& p) {
+  return to_string(p.x) + "," + to_string(p.y);
+}
+
 vector<struct Point> intersection(const vector<struct Point> line1, const vector<struct Point> line2){
   vector<struct Point> result;
+  unordered_map<string, bool> h;
+  for (auto p2 : line2)
+    h[point_to_string(p2)] = true;
   for (auto p1 : line1)
-    for (auto p2 : line2) {
-      if (p1.x == p2.x && p1.y == p2.y) {
-	result.push_back(p1);
-	break;
-      }
-    }
+    if (h[point_to_string(p1)])
+      result.push_back(p1);
   return result;
 }
 
