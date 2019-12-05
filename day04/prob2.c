@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Time to review Regex
+
 int
 digit_to_array(int n, int** out) {
   int capp = 10;
