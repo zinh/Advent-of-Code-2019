@@ -18,6 +18,7 @@ class Cpu {
     }
 
     void execute(int, vector<int>);
+    void run(void);
     void load_program(string);
 
   private:
@@ -43,6 +44,10 @@ void Cpu::execute(int opcode, vector<int> args) {
     default:
       throw runtime_error("Invalid operator");
   }
+}
+
+void Cpu::run(void){
+  int opcode = memory[ip];
 }
 
 void Cpu::add(int op1, int op2, int result) {
