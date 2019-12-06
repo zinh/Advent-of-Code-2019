@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <cmath>
 #include <boost/algorithm/string/split.hpp>
 
 using namespace std;
@@ -26,4 +27,8 @@ class Cpu {
     void multiply(int, int, int);
     void input(int);
     void output(int);
+    int get_operand(int, int);
+    void jnz(int, int);
+    void jz(int, int);
 };
+
