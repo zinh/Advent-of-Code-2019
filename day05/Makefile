@@ -12,8 +12,8 @@ prob1.o: prob1.cpp
 machine.o: machine.cpp machine.h
 	$(CC) $(CFLAGS) -std=c++11 -c machine.cpp
 
-machine.test: machine.cpp machine_test.cpp
-	$(CC) $(CFLAGS) $(LIBS) -std=c++11 machine_test.cpp -o machine_test.out
+machine_test.out: machine_test.cpp machine.o
+	$(CC) $(CFLAGS) $(LIBS) -std=c++11 machine.o machine_test.cpp -o machine_test.out
 
 test: machine.test
 	DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib ./machine_test.out

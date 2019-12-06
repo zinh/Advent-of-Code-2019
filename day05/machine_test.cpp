@@ -5,11 +5,11 @@
 BOOST_AUTO_TEST_CASE(no_matches){
 }
 
-//int
-//add(int a, int b) {
-//  return a + b;
-//}
-//
-//BOOST_AUTO_TEST_CASE(my_test) {
-//  BOOST_TEST(add(1,1) == 2);
-//}
+int
+add(int a, int b) {
+  return a + b;
+}
+
+BOOST_AUTO_TEST_CASE(my_test) {
+  BOOST_TEST(add(1,1) == 3);
+}
