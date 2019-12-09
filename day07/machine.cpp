@@ -6,9 +6,16 @@ int Cpu::get_operand(int opcode, int op_pos) {
     : memory[ip + op_pos];
 }
 
+void Cpu::start(vector<int> inputs) {
+  ip = 0;
+  execute(input);
+}
+
+void Cpu::resume(vector<int> inputs) {
+}
+
 string Cpu::execute(vector<int> inputs) {
   int input_idx = 0;
-  ip = 0;
   while(true) {
 
     //cout << "IP(" << ip << ')';
