@@ -1,10 +1,12 @@
 #include <iostream>
 #include <algorithm>
-#include <array>
+#include <vector>
+
+using namespace std;
 
 int
 main(){
-  std::array<int, 3> s = { 1, 2, 3 };
+  vector<int> s {1, 2, 3}; 
   do {
     for (auto i : s) {
       std::cout << i << ' ';

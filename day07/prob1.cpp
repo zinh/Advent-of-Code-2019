@@ -7,7 +7,7 @@
 using namespace std;
 
 const int MEMORY_SIZE = 10000;
-vector<vector<int>> permutations(int from ,int to, int depth);
+vector<vector<int>> permutations(int from ,int to);
 
 int
 main(int argc, char** argv){
@@ -21,7 +21,7 @@ main(int argc, char** argv){
   fstream fs(file_name);
   fs >> s;
 
-  vector<vector<int>> perms = permutations(0, 5, PASS);
+  vector<vector<int>> perms = permutations(0, 5);
   // cout << perms.size() << '\n';
   //for (auto p : perms) {
   //  for (auto i : p) 
@@ -37,9 +37,9 @@ main(int argc, char** argv){
     int previous_output = 0;
     string output;
 
-    cout << "Input: ";
-    for (auto i : inputs)
-      cout << i << ' ';
+    //cout << "Input: ";
+    //for (auto i : inputs)
+    //  cout << i << ' ';
     for (int pass = 0; pass < PASS; pass++){
       Cpu machine(MEMORY_SIZE);
       machine.load_program(s);
@@ -51,7 +51,7 @@ main(int argc, char** argv){
         break;
       }
     }
-    cout << "Output: " << output << '\n';
+    //cout << "Output: " << output << '\n';
     if (output.size() > 0)
       if (max_output < previous_output)
         max_output = previous_output;
@@ -61,31 +61,16 @@ main(int argc, char** argv){
   return 0;
 }
 
-vector<int> copy_vector(vector<int> src) {
-  vector<int> v;
-  for (auto i : src)
-    v.push_back(i);
-  return v;
-}
-
-vector<vector<int>> combinations(int from ,int to, int depth) {
+vector<vector<int>> permutations(int from ,int to) {
+  vector<int> s;
   vector<vector<int>> result;
-  for (int i = from; i < to; i++){
-    result.push_back(vector<int>{i});
-  }
-
-  for (int i = 1; i < depth; i++) {
-    int total = result.size();
-    for (int idx = 0; idx < total; idx++){
-      vector<int> member = result[idx];
-      for (int j = from + 1; j < to; j++) {
-        vector<int> v = copy_vector(member);
-        v.push_back(j);
-        result.push_back(v);
-      }
-      member.push_back(from);
-      result[idx] = member;
-    }
-  }
+  for (int i = from; i < to; i++)
+    s.push_back(i);
+  do {
+    vector<int> item;
+    for (auto i : s)
+      item.push_back(i);
+    result.push_back(item);
+  } while (next_permutation(s.begin(), s.end()));
   return result;
 }
