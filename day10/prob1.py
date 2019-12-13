@@ -31,6 +31,8 @@ if __name__ == "__main__":
         if c > max_c:
             max_c = c
             max_p = point
+        if c == 260:
+            print(point)
     print(point, max_c)
 
     #for point in m:

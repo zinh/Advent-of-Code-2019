@@ -24,12 +24,18 @@ def read_file(file_name):
 
 # calculate angle between two vectors
 def angle(v1, v2):
+    #if v2 == (0, 1):
+    #    import pdb; pdb.set_trace()
     delta = v1[0] * v2[1] - v1[1] * v2[0]
     #if v2 == (0, -3):
     #    import pdb; pdb.set_trace()
-    if delta == 0:
-        return 0
     dot_product = v1[0] * v2[0] + v1[1] * v2[1]
+    cos_angle = dot_product / (length(v1) * length(v2))
+    if delta == 0 and cos_angle == 1:
+        return 0
+    if delta == 0 and cos_angle != 1:
+        return pi
+
     if delta > 0:
         return acos(dot_product / (length(v1) * length(v2)))
     else:
@@ -40,9 +46,10 @@ def length(v):
 
 if __name__ == "__main__":
     m = read_file(sys.argv[1])
-    center = (22, 23)
+    center = (14, 17)
+    #center = (8, 3)
     angles = sorted([[point, angle((0, -1), (point[0] - center[0], point[1] - center[1]))] for point in m if  point != center], key=lambda x: x[1])
-    #print(angles)
+    print(angles)
     order = 1
     while True:
         del_lst = []
