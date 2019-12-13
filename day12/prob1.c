@@ -59,25 +59,23 @@ int accelerate(x1, x2) {
     return 0;
 }
 
-void
-calc_accelerate(struct Moon m1, struct Moon m2, struct Point accl[2]) {
+struct Point
+calc_accelerate(struct Moon m1, struct Moon m2) {
   struct Point a1 = { accelerate(m1.position.x, m2.position.x),
     accelerate(m1.position.y, m2.position.y),
     accelerate(m1.position.z, m2.position.z) };
   struct Point a2 = { accelerate(m2.position.x, m1.position.x),
     accelerate(m2.position.y, m1.position.y),
     accelerate(m2.position.z, m1.position.z) };
-  accl[0] = a1;
-  accl[1] = a2;
+  return a1;
 }
 
-struct Moon
-update_position(struct Moon m) {
-  struct Point pos = {m.position.x + m.velocity.x, 
-    m.position.y + m.velocity.y, 
-    m.position.z + m.velocity.z};
-  struct Moon r = { pos, m.velocity };
-  return r;
+void
+update_position(struct Moon *m) {
+  struct Point pos = {m->position.x + m->velocity.x, 
+    m->position.y + m->velocity.y, 
+    m->position.z + m->velocity.z};
+  m->position = pos;
 }
 
 
@@ -86,6 +84,33 @@ calc_energy(struct Moon m) {
   int potential = abs(m.position.x) + abs(m.position.y) + abs(m.position.z);
   int kinetic = abs(m.velocity.x) + abs(m.velocity.y) + abs(m.velocity.z);
   return potential * kinetic;
+}
+
+void
+step(struct Moon moons[MOON_COUNT]) {
+  struct Point total_accl[MOON_COUNT];
+  int total_energy = 0;
+  for (int idx = 0; idx < MOON_COUNT; idx++) {
+    total_accl[idx].x = total_accl[idx].y = total_accl[idx].z = 0;
+  }
+  for (int idx = 0; idx < MOON_COUNT; idx++) {
+    for (int other_idx = 0; other_idx < MOON_COUNT; other_idx++) {
+      if (other_idx == idx)
+        continue;
+      struct Point accl = calc_accelerate(moons[idx], moons[other_idx]);
+      total_accl[idx].x += accl.x;
+      total_accl[idx].y += accl.y;
+      total_accl[idx].z += accl.z;
+    }
+  }
+  for (int idx = 0; idx < MOON_COUNT; idx++) {
+    moons[idx].velocity.x += total_accl[idx].x;
+    moons[idx].velocity.y += total_accl[idx].y;
+    moons[idx].velocity.z += total_accl[idx].z;
+    update_position(&moons[idx]);
+    total_energy += calc_energy(moons[idx]);
+  }
+  printf("Energy: %d\n\n", total_energy);
 }
 
 int
@@ -110,9 +135,11 @@ main(int argc, char **argv) {
     struct Point v = {0, 0, 0};
     moons[idx].position = p;
     moons[idx].velocity = v;
-    print_moon(moons[idx]);
+    //print_moon(moons[idx]);
     idx++;
   }
+  for (int i = 1; i <= 1000; i++)
+    step(moons);
 
   fclose(fd);
   return EXIT_SUCCESS;
