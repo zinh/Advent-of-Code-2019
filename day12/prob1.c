@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "moon.h"
 
+extern void read_file(char *file_name, struct Moon moons[]);
+extern void step(struct Moon moons[]);
+
 int
 main(int argc, char **argv) {
   if (argc != 2) {

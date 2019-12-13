@@ -10,5 +10,5 @@ struct Moon {
   struct Point velocity;
 };
 
-void step(struct Moon moons[MOON_COUNT]);
-void read_file(char *file_name, struct Moon moons[MOON_COUNT]);
+//void step(struct Moon moons[MOON_COUNT]);
+//void read_file(char *file_name, struct Moon moons[MOON_COUNT]);
