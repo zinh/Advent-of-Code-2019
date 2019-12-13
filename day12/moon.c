@@ -99,7 +99,6 @@ step(struct Moon moons[MOON_COUNT]) {
     update_position(&moons[idx]);
     total_energy += calc_energy(moons[idx]);
   }
-  printf("Energy: %d\n\n", total_energy);
 }
 
 void read_file(char *file_name, struct Moon moons[MOON_COUNT]){
