@@ -22,16 +22,8 @@ main(int argc, char** argv){
   fstream fs(file_name);
   fs >> s;
 
-  //Cpu machine(MEMORY_SIZE);
-  //machine.load_program(s);
-  //cout << "Halted: " << machine.is_halted() << endl;
-  //string output = machine.resume(vector<int>{9, 0});
-  //cout << "Output: " << output << endl;
-  //cout << "Halted: " << machine.is_halted() << endl;
-
   int max_output = INT32_MIN;
   vector<vector<int>> perms = permutations(5, 10);
-  //vector<vector<int>> perms = { vector<int>{9, 8, 7, 6, 5} };
 
   for (const auto& initial_inputs : perms) {
     int previous_output = 0;
@@ -40,11 +32,9 @@ main(int argc, char** argv){
 
     for (int i = 0; i < PASS; i++)
       machines[i].load_program(s);
-    // First pass
+
     for (int i = 0; i < PASS; i++) {
-      //cout << "1st pass(input): " << initial_inputs[i] << endl;
       output = machines[i].resume(vector<int>{initial_inputs[i], previous_output});
-      //cout << "1st pass(output): " << output << endl;
       try {
         previous_output = stoi(output);
       } catch (const std::invalid_argument& e) {
@@ -56,8 +46,7 @@ main(int argc, char** argv){
       }
     }
 
-    bool halted = false;
-    while(!halted) {
+    while(true) {
       for (auto& machine : machines) {
         output = machine.resume(vector<int>{previous_output});
         try {
@@ -69,15 +58,11 @@ main(int argc, char** argv){
         }
       }
 
-      for (auto& machine : machines) {
-        if (!machine.is_halted())
-          goto CONT;
+      if (all_of(machines.begin(), machines.end(), [](Cpu& m) { return m.is_halted(); })) {
+        if (max_output < previous_output)
+          max_output = previous_output;
+        break;
       }
-      halted = true;
-      if (max_output < previous_output)
-        max_output = previous_output;
-CONT:
-      continue;
     }
   }
   cout << "Max output: " << max_output;
