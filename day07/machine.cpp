@@ -6,12 +6,14 @@ int Cpu::get_operand(int opcode, int op_pos) {
     : memory[ip + op_pos];
 }
 
-void Cpu::start(vector<int> inputs) {
+string Cpu::start(vector<int> inputs) {
   ip = 0;
-  execute(input);
+  return execute(inputs);
 }
 
-void Cpu::resume(vector<int> inputs) {
+string Cpu::resume(vector<int> inputs) {
+  //cout << "Input size: " << inputs.size() << endl;
+  return execute(inputs);
 }
 
 string Cpu::execute(vector<int> inputs) {
@@ -42,10 +44,14 @@ string Cpu::execute(vector<int> inputs) {
         }
       case 3: // input
         {
-          int op1 = memory[ip + 1];
-          memory[op1] = inputs[input_idx++];
-          ip += 2;
-          break;
+          if (input_idx >= inputs.size()) {
+            return buffer;
+          } else {
+            int op1 = memory[ip + 1];
+            memory[op1] = inputs[input_idx++];
+            ip += 2;
+            break;
+          }
         }
       case 4: // output
         {
@@ -93,6 +99,7 @@ string Cpu::execute(vector<int> inputs) {
           break;
         }
       case 99: // exit
+        halted = true;
         return buffer;
       default:
         throw runtime_error("Invalid operator");
@@ -109,7 +116,8 @@ void Cpu::multiply(int op1, int op2, int result) {
 }
 
 void Cpu::output(int val) {
-  buffer.append(to_string(val));
+  //buffer.append(to_string(val));
+  buffer = to_string(val);
   //buffer.append("\n");
 }
 
