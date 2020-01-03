@@ -1,9 +1,19 @@
 #include "machine.h"
 
 int Cpu::get_operand(int opcode, int op_pos) {
-  return (opcode / (int)pow(10, op_pos + 1) % 10) == 0 
-    ? memory[memory[ip + op_pos]] 
-    : memory[ip + op_pos];
+  switch(opcode / (int)pow(10, op_pos + 1) % 10) {
+    case 0:
+      return memory[memory[ip + op_pos]];
+    case 1:
+      return memory[ip + op_pos];
+    case 2: 
+      {
+        int addr = ds + memory[ip + op_pos];
+        return memory[addr];
+      }
+    default:
+      throw runtime_error("Invalid memory mode. Valid modes are 0, 1, 2");
+  }
 }
 
 string Cpu::start(vector<int> inputs) {
@@ -98,6 +108,8 @@ string Cpu::execute(vector<int> inputs) {
           ip += 4;
           break;
         }
+      case 9: // change DS register
+        break;
       case 99: // exit
         halted = true;
         return buffer;

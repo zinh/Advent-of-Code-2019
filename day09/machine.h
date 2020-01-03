@@ -8,7 +8,11 @@
 using namespace std;
 class Cpu {
   public:
-    Cpu(int memory_size) :memory{new int[memory_size]}, memory_size{memory_size}, ip{0}, halted{false} {}
+    Cpu(int memory_size) :memory{new int[memory_size]}, 
+      memory_size{memory_size}, 
+      ip{0}, 
+      halted{false},
+      ds{0} {}
 
     ~Cpu() {
       delete[] memory;
@@ -29,6 +33,7 @@ class Cpu {
     string buffer;
     int ip;
     bool halted;
+    int ds; // data segment register
 
     void add(int, int, int);
     void multiply(int, int, int);
