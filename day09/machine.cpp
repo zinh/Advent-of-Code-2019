@@ -113,7 +113,7 @@ string Cpu::execute(vector<int> inputs) {
       case 9: // change DS register
         {
           int op1 = get_operand(opcode, 1);
-          ds = op1;
+          ds += op1;
           ip += 2;
           break;
         }
@@ -136,8 +136,9 @@ void Cpu::multiply(int op1, int op2, int result) {
 }
 
 void Cpu::output(int val) {
+  //cout << "Output: " << val << endl;
   buffer.append(to_string(val));
-  buffer = to_string(val);
+  //buffer = to_string(val);
   buffer.append("\n");
 }
 

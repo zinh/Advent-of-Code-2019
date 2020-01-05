@@ -1,4 +1,4 @@
-CC=clang++
+CC=clang++ -g
 CFLAGS=-I../lib/boost_1_71_0 -std=c++11
 LIBS=-L../lib/boost_1_71_0/stage/lib -lboost_unit_test_framework
 DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib
