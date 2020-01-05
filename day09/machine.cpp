@@ -1,6 +1,7 @@
 #include "machine.h"
 
-int& Cpu::get_operand(int opcode, int op_pos) {
+template<typename T>
+T& Cpu<T>::get_operand(int opcode, int op_pos) {
   switch(opcode / (int)pow(10, op_pos + 1) % 10) {
     case 0:
       return memory[memory[ip + op_pos]];
@@ -16,17 +17,20 @@ int& Cpu::get_operand(int opcode, int op_pos) {
   }
 }
 
-string Cpu::start(vector<int> inputs) {
+template<typename T>
+string Cpu<T>::start(vector<int> inputs) {
   ip = 0;
   return execute(inputs);
 }
 
-string Cpu::resume(vector<int> inputs) {
+template<typename T>
+string Cpu<T>::resume(vector<int> inputs) {
   //cout << "Input size: " << inputs.size() << endl;
   return execute(inputs);
 }
 
-string Cpu::execute(vector<int> inputs) {
+template<typename T>
+string Cpu<T>::execute(vector<int> inputs) {
   int input_idx = 0;
   while(true) {
 
@@ -42,9 +46,9 @@ string Cpu::execute(vector<int> inputs) {
       case 1: // add
       case 2: // multiply
         {
-          int op1 = get_operand(opcode, 1);
-          int op2 = get_operand(opcode, 2);
-          int& op3 = get_operand(opcode, 3); // memory[ip + 3];
+          T op1 = get_operand(opcode, 1);
+          T op2 = get_operand(opcode, 2);
+          T& op3 = get_operand(opcode, 3); // memory[ip + 3];
           if (op == 1)
             op3 = op1 + op2;
           else
@@ -57,7 +61,7 @@ string Cpu::execute(vector<int> inputs) {
           if (input_idx >= inputs.size()) {
             return buffer;
           } else {
-            int& op1 = get_operand(opcode, 1);
+            T& op1 = get_operand(opcode, 1);
             op1 = inputs[input_idx++];
             ip += 2;
             break;
@@ -65,30 +69,30 @@ string Cpu::execute(vector<int> inputs) {
         }
       case 4: // output
         {
-          int op1 = get_operand(opcode, 1); 
+          T op1 = get_operand(opcode, 1); 
           output(op1);
           ip += 2;
           break;
         }
       case 5: // jump-if-true
         {
-          int op1 = get_operand(opcode, 1);
-          int jump_addr = get_operand(opcode, 2);
+          T op1 = get_operand(opcode, 1);
+          T jump_addr = get_operand(opcode, 2);
           jnz(op1, jump_addr);
           break;
         }
       case 6: // jump-if-false
         {
-          int op1 = get_operand(opcode, 1);
-          int jump_addr = get_operand(opcode, 2);
+          T op1 = get_operand(opcode, 1);
+          T jump_addr = get_operand(opcode, 2);
           jz(op1, jump_addr);
           break;
         }
       case 7: // less-than
         {
-          int op1 = get_operand(opcode, 1);
-          int op2 = get_operand(opcode, 2);
-          int& op3 = get_operand(opcode, 3);
+          T op1 = get_operand(opcode, 1);
+          T op2 = get_operand(opcode, 2);
+          T& op3 = get_operand(opcode, 3);
           if (op1 < op2) {
             op3 = 1;
           } else {
@@ -99,9 +103,9 @@ string Cpu::execute(vector<int> inputs) {
         }
       case 8: // equals
         {
-          int op1 = get_operand(opcode, 1);
-          int op2 = get_operand(opcode, 2);
-          int& op3 = get_operand(opcode, 3);
+          T op1 = get_operand(opcode, 1);
+          T op2 = get_operand(opcode, 2);
+          T& op3 = get_operand(opcode, 3);
           if (op1 == op2) {
             op3 = 1;
           } else {
@@ -112,7 +116,7 @@ string Cpu::execute(vector<int> inputs) {
         }
       case 9: // change DS register
         {
-          int op1 = get_operand(opcode, 1);
+          T op1 = get_operand(opcode, 1);
           ds += op1;
           ip += 2;
           break;
@@ -127,15 +131,18 @@ string Cpu::execute(vector<int> inputs) {
   }
 }
 
-void Cpu::add(int op1, int op2, int result) {
+template<typename T>
+void Cpu<T>::add(T op1, T op2, T result) {
   memory[result] = op1 + op2;
 }
 
-void Cpu::multiply(int op1, int op2, int result) {
+template<typename T>
+void Cpu<T>::multiply(T op1, T op2, T result) {
   memory[result] = op1 * op2;
 }
 
-void Cpu::output(int val) {
+template<typename T>
+void Cpu<T>::output(T val) {
   //cout << "Output: " << val << endl;
   buffer.append(to_string(val));
   //buffer = to_string(val);
@@ -143,7 +150,8 @@ void Cpu::output(int val) {
 }
 
 // jump if true
-void Cpu::jnz(int op1, int op2) {
+template<typename T>
+void Cpu<T>::jnz(T op1, T op2) {
   //cout << "jnz " << op1 << " " << op2 << endl;
   if (op1 != 0) {
     ip = op2;
@@ -153,7 +161,8 @@ void Cpu::jnz(int op1, int op2) {
 }
 
 // jump if alse
-void Cpu::jz(int op1, int op2) {
+template<typename T>
+void Cpu<T>::jz(T op1, T op2) {
   if (op1 == 0) {
     ip = op2;
   } else {
@@ -161,17 +170,19 @@ void Cpu::jz(int op1, int op2) {
   }
 }
 
-void Cpu::load_program(string program) {
+template<typename T>
+void Cpu<T>::load_program(string program) {
   vector<string> instructions;
   int i = 0;
   boost::algorithm::split(instructions, program, [](char x) -> bool { return x == ',';} );
   for (auto ins : instructions){
-    memory[i++] = stoi(ins);
+    memory[i++] = stol(ins);
   }
   //cout << "Loaded: " << i << " instructions" << '\n';
 }
 
-void Cpu::reset(void) {
+template<typename T>
+void Cpu<T>::reset(void) {
   ip = 0;
   buffer = "";
 }

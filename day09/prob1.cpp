@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "machine.h"
+#include "machine.cpp"
 
 using namespace std;
 
@@ -16,9 +16,9 @@ if (argc <= 1) {
 
   fstream fs(file_name);
   fs >> s;
-  Cpu machine;
+  Cpu<long> machine;
   machine.load_program(s);
-  string output = machine.resume(vector<int>{});
+  string output = machine.resume(vector<int>{2});
   cout << output;
   return 0;
 }

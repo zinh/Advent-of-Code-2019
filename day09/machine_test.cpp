@@ -3,7 +3,7 @@
 
 #include <boost/test/parameterized_test.hpp>
 #include <boost/test/unit_test.hpp>
-#include "machine.h"
+#include "machine.cpp"
 #include <string>
 
 struct Fixture {
@@ -14,7 +14,7 @@ struct Fixture {
     BOOST_TEST_MESSAGE("teardown");
   }
 
-  Cpu m;
+  Cpu<long> m;
 };
 
 BOOST_FIXTURE_TEST_CASE(test_add_intermediate, Fixture) {
@@ -46,7 +46,6 @@ BOOST_FIXTURE_TEST_CASE(test_add_relative_2, Fixture) {
 }
 
 BOOST_FIXTURE_TEST_CASE(test_multiply_intermediate, Fixture) {
-  Cpu m;
   string program = "1102,1,2,7,4,7,99,2";
   m.load_program(program);
   string output = m.resume(vector<int>{});
@@ -102,12 +101,11 @@ BOOST_FIXTURE_TEST_CASE(test_jump_if_true_2_positional, Fixture) {
   BOOST_TEST(stoi(output) == 0);
 }
 
-void shared_test_case(string program, vector<int> input, int expected) {
-  Cpu m;
-  m.load_program(program);
-  string output = m.resume(input);
-  BOOST_TEST(stoi(output) == expected);
-}
+//void shared_test_case(string program, vector<int> input, int expected) {
+//  m.load_program(program);
+//  string output = m.resume(input);
+//  BOOST_TEST(stoi(output) == expected);
+//}
 
 BOOST_AUTO_TEST_CASE(test_long_number) {
   long n = 1125899906842624;
