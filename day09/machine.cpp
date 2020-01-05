@@ -1,6 +1,6 @@
 #include "machine.h"
 
-int Cpu::get_operand(int opcode, int op_pos) {
+int& Cpu::get_operand(int opcode, int op_pos) {
   switch(opcode / (int)pow(10, op_pos + 1) % 10) {
     case 0:
       return memory[memory[ip + op_pos]];
@@ -44,11 +44,11 @@ string Cpu::execute(vector<int> inputs) {
         {
           int op1 = get_operand(opcode, 1);
           int op2 = get_operand(opcode, 2);
-          int op3 = memory[ip + 3];
+          int& op3 = get_operand(opcode, 3); // memory[ip + 3];
           if (op == 1)
-            add(op1, op2, op3);
+            op3 = op1 + op2;
           else
-            multiply(op1, op2, op3);
+            op3 = op1 * op2;
           ip += 4;
           break;
         }
@@ -57,16 +57,16 @@ string Cpu::execute(vector<int> inputs) {
           if (input_idx >= inputs.size()) {
             return buffer;
           } else {
-            int op1 = memory[ip + 1];
-            memory[op1] = inputs[input_idx++];
+            int& op1 = get_operand(opcode, 1);
+            op1 = inputs[input_idx++];
             ip += 2;
             break;
           }
         }
       case 4: // output
         {
-          int op1 = memory[ip + 1];
-          output(memory[op1]);
+          int op1 = get_operand(opcode, 1); 
+          output(op1);
           ip += 2;
           break;
         }
@@ -88,10 +88,11 @@ string Cpu::execute(vector<int> inputs) {
         {
           int op1 = get_operand(opcode, 1);
           int op2 = get_operand(opcode, 2);
+          int& op3 = get_operand(opcode, 3);
           if (op1 < op2) {
-            memory[memory[ip + 3]] = 1;
+            op3 = 1;
           } else {
-            memory[memory[ip + 3]] = 0;
+            op3 = 0;
           }
           ip += 4;
           break;
@@ -100,20 +101,27 @@ string Cpu::execute(vector<int> inputs) {
         {
           int op1 = get_operand(opcode, 1);
           int op2 = get_operand(opcode, 2);
+          int& op3 = get_operand(opcode, 3);
           if (op1 == op2) {
-            memory[memory[ip + 3]] = 1;
+            op3 = 1;
           } else {
-            memory[memory[ip + 3]] = 0;
+            op3 = 0;
           }
           ip += 4;
           break;
         }
       case 9: // change DS register
-        break;
+        {
+          int op1 = get_operand(opcode, 1);
+          ds = op1;
+          ip += 2;
+          break;
+        }
       case 99: // exit
         halted = true;
         return buffer;
       default:
+        cerr << "Undefined op: " << op << endl;
         throw runtime_error("Invalid operator");
     }
   }
@@ -128,13 +136,14 @@ void Cpu::multiply(int op1, int op2, int result) {
 }
 
 void Cpu::output(int val) {
-  //buffer.append(to_string(val));
+  buffer.append(to_string(val));
   buffer = to_string(val);
-  //buffer.append("\n");
+  buffer.append("\n");
 }
 
 // jump if true
 void Cpu::jnz(int op1, int op2) {
+  //cout << "jnz " << op1 << " " << op2 << endl;
   if (op1 != 0) {
     ip = op2;
   } else {
