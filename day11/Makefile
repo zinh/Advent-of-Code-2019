@@ -1,7 +1,9 @@
-CC=clang++ -g
+CC=clang++
 CFLAGS=-I../lib/boost_1_71_0 -std=c++11
 LIBS=-L../lib/boost_1_71_0/stage/lib -lboost_unit_test_framework
 DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib
+
+.PHONY: clean test test_*
 
 all: prob1.out
 
@@ -26,7 +28,7 @@ machine_test.out: machine.o machine_test.cpp
 frame_buffer_test.out: frame_buffer_test.cpp frame_buffer.o
 	$(CC) $(CFLAGS) $(LIBS) frame_buffer_test.cpp frame_buffer.o -o frame_buffer_test.out
 
-test_frame_buffer:
+test_frame_buffer: frame_buffer_test.out
 	DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib ./frame_buffer_test.out
 
 test_machine: machine_test.out
@@ -35,7 +37,7 @@ test_machine: machine_test.out
 test_mmu: mmu_test.out
 	DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib ./mmu_test.out
 
-test_all: test_machine test_mmu test_frame_buffer
+test: test_machine test_mmu test_frame_buffer
 
 clean:
 	rm -rf *.o *.out *.dSYM
