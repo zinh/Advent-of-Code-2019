@@ -23,6 +23,7 @@ class Cpu {
     void run(void);
     void load_program(string);
     void reset(void);
+    void clo(void){ buffer = ""; } //clear output
     string start(vector<int> input);
     string resume(vector<int> input);
 

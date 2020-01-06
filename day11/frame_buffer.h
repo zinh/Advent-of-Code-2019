@@ -32,6 +32,10 @@ class FrameBuffer {
     struct Pointer currentPosition() {
       return pointer;
     }
+
+    int stat(void) {
+      return buffer.stat();
+    }
   private:
     mmu<pair<int, int>, int> buffer;
     struct Pointer pointer;

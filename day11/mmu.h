@@ -1,3 +1,6 @@
+#ifndef MMU_H__
+#define MMU_H__
+
 #include <map>
 
 using namespace std;
@@ -11,6 +14,11 @@ class mmu {
       } 
       return pages[idx];
     };
+    int stat(void) {
+      return pages.size();
+    }
   private:
     map<K, V> pages;
 };
+
+#endif
