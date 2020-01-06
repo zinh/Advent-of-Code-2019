@@ -8,7 +8,11 @@ void FrameBuffer::writeAndRotate(int val, int angle) {
 }
 
 void FrameBuffer::writeTo(int x, int y, int val) {
-  buffer[pair<int, int>(x, y)] = val;
+  int color = buffer[pair<int, int>(x, y)];
+  if (color != val) {
+    buffer[pair<int, int>(x, y)] = val;
+    //painted_cells.insert(pair<int, int>(x, y));
+  }
 }
 
 // TODO: temporary angle = {90, -90}
@@ -63,4 +67,7 @@ void FrameBuffer::forward(int step) {
       pointer.x += step;
       break;
   }
+}
+
+void FrameBuffer::print(char* filename) {
 }

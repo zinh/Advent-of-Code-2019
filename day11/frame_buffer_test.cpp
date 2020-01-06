@@ -27,6 +27,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_1) {
   BOOST_TEST(p.d == Direction::right);
   BOOST_TEST(p.x == 1);
   BOOST_TEST(p.y == 0);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_2) {
@@ -36,6 +37,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_2) {
   BOOST_TEST(p.d == Direction::left);
   BOOST_TEST(p.x == -1);
   BOOST_TEST(p.y == 0);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 
@@ -46,6 +48,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_3) {
   BOOST_TEST(p.d == Direction::left);
   BOOST_TEST(p.x == -1);
   BOOST_TEST(p.y == 0);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_4) {
@@ -55,6 +58,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_4) {
   BOOST_TEST(p.d == Direction::right);
   BOOST_TEST(p.x == 1);
   BOOST_TEST(p.y == 0);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_5) {
@@ -64,6 +68,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_5) {
   BOOST_TEST(p.d == Direction::up);
   BOOST_TEST(p.x == 0);
   BOOST_TEST(p.y == 1);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_6) {
@@ -73,6 +78,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_6) {
   BOOST_TEST(p.d == Direction::down);
   BOOST_TEST(p.x == 0);
   BOOST_TEST(p.y == -1);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_7) {
@@ -82,6 +88,7 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_7) {
   BOOST_TEST(p.d == Direction::down);
   BOOST_TEST(p.x == 0);
   BOOST_TEST(p.y == -1);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_writeAndRotate_8) {
@@ -91,4 +98,17 @@ BOOST_AUTO_TEST_CASE(test_writeAndRotate_8) {
   BOOST_TEST(p.d == Direction::up);
   BOOST_TEST(p.x == 0);
   BOOST_TEST(p.y == 1);
+  BOOST_TEST(frm.colorOf(0, 0) == 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_writeAndRotate_9) {
+  FrameBuffer frm = FrameBuffer(0, 0, Direction::up);
+  frm.writeAndRotate(1, -90);
+  frm.writeAndRotate(0, -90);
+  frm.writeAndRotate(1, -90);
+  frm.writeAndRotate(1, -90);
+  frm.writeAndRotate(0, 90);
+  frm.writeAndRotate(1, -90);
+  frm.writeAndRotate(1, -90);
+  BOOST_TEST(frm.stat() == 6);
 }

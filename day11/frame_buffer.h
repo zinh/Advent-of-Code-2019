@@ -1,4 +1,7 @@
 #include <utility>
+#include <set>
+
+#include <boost/functional/hash.hpp>
 #include "mmu.h"
 
 using namespace std;
@@ -26,6 +29,10 @@ class FrameBuffer {
     void rotate(int angle);
     void forward(int step);
     void writeAndRotate(int val, int angle);
+    int colorOf(int x, int y) {
+      return buffer[pair<int, int>(x, y)];
+    }
+
     int currentColor() {
       return buffer[pair<int, int>(pointer.x, pointer.y)];
     }
@@ -36,7 +43,11 @@ class FrameBuffer {
     int stat(void) {
       return buffer.stat();
     }
+
+    void print(char* filename);
   private:
-    mmu<pair<int, int>, int> buffer;
+    typedef pair<int, int> p;
+    mmu<p, int, boost::hash<p>> buffer;
+    set<pair<int, int>> painted_cells;
     struct Pointer pointer;
 };

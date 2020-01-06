@@ -23,7 +23,8 @@ if (argc <= 1) {
   FrameBuffer buffer = FrameBuffer(0, 0);
 
   machine.load_program(s);
-  int color = 0;
+  int color = 1;
+  buffer.writeTo(0, 0, 1);
   while(true) {
     string output = machine.resume(vector<int>{color});
     vector<string> instructions;
@@ -49,6 +50,6 @@ if (argc <= 1) {
     if (machine.is_halted())
       break;
   }
-  cout << "Stat: " << buffer.stat() << endl;
+  //cout << "Stat: " << buffer.stat() << endl;
   return 0;
 }

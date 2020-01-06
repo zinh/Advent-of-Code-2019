@@ -7,6 +7,9 @@ DYLD_LIBRARY_PATH=../lib/boost_1_71_0/stage/lib
 
 all: prob1.out
 
+prob2.out: machine.o mmu.o frame_buffer.o prob2.cpp 
+	$(CC) $(CFLAGS) prob2.cpp machine.o mmu.o -o prob2.out
+
 prob1.out: machine.o mmu.o frame_buffer.o prob1.cpp 
 	$(CC) $(CFLAGS) prob1.cpp machine.o mmu.o -o prob1.out
 
