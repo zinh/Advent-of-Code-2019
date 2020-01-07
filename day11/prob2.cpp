@@ -19,7 +19,7 @@ if (argc <= 1) {
 
   fstream fs(file_name);
   fs >> s;
-  Cpu<int> machine;
+  Cpu<long> machine;
   FrameBuffer buffer = FrameBuffer(0, 0);
 
   machine.load_program(s);
@@ -43,13 +43,16 @@ if (argc <= 1) {
         throw runtime_error("Undefined color");
     } 
 
-    //cout << "Color: " << instructions[0] << " Angle: " << angle << endl;
+    // cout << "Color: " << instructions[0] << " Angle: " << angle << endl;
     buffer.writeAndRotate(stoi(instructions[0]), angle);
     color = buffer.currentColor();
+    //buffer.print("hello");
+    //break;
 
     if (machine.is_halted())
       break;
   }
   //cout << "Stat: " << buffer.stat() << endl;
+  buffer.print("image.pbm");
   return 0;
 }

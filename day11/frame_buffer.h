@@ -36,6 +36,7 @@ class FrameBuffer {
     int currentColor() {
       return buffer[pair<int, int>(pointer.x, pointer.y)];
     }
+
     struct Pointer currentPosition() {
       return pointer;
     }
@@ -44,7 +45,7 @@ class FrameBuffer {
       return buffer.stat();
     }
 
-    void print(char* filename);
+    void print(string filename);
   private:
     typedef pair<int, int> p;
     mmu<p, int, boost::hash<p>> buffer;

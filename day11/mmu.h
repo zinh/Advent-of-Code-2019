@@ -8,6 +8,9 @@ using namespace std;
 
 template<typename K, typename V, typename Hasher = hash<K>>
 class mmu {
+  private:
+    typedef unordered_map<K, V, Hasher> PageList;
+    PageList pages;
   public:
     V& operator[](K idx) {
       if (pages.find(idx) == pages.end()) {
@@ -15,11 +18,15 @@ class mmu {
       } 
       return pages[idx];
     };
+
     int stat(void) {
       return pages.size();
     }
-  private:
-    unordered_map<K, V, Hasher> pages;
+    typedef typename PageList::iterator iterator;
+    typedef typename PageList::const_iterator const_iterator;
+
+    iterator begin() { return pages.begin(); }
+    iterator end() { return pages.end(); }
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "frame_buffer.h"
 #include <iostream>
+#include <fstream>
 
 void FrameBuffer::writeAndRotate(int val, int angle) {
   writeTo(pointer.x, pointer.y, val);
@@ -51,8 +52,6 @@ void FrameBuffer::rotate(int angle) {
 }
 
 void FrameBuffer::forward(int step) {
-  //cout << "Forward " << step << endl;
-  //cout << "Current direction" << pointer.d << endl;
   switch (pointer.d) {
     case Direction::up:
       pointer.y += step;
@@ -69,5 +68,34 @@ void FrameBuffer::forward(int step) {
   }
 }
 
-void FrameBuffer::print(char* filename) {
+void FrameBuffer::print(string filename) {
+  ofstream ofs(filename, ios::out);
+  int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
+  for (const auto& item : buffer) {
+    pair<int, int> position = item.first;
+    int x = position.first;
+    int y = position.second;
+    int color = item.second;
+    if (x < min_x)
+      min_x = x;
+    if (x > max_x)
+      max_x = x;
+    if (y < min_y)
+      min_y = y;
+    if (y > max_y)
+      max_y = y;
+  }
+  ofs << "P1" << endl;
+  ofs << max_x - min_x  + 1 << " " << max_y - min_y + 1 << endl;
+
+  for (int y = min_y; y <= max_y; y++) {
+    for(int x = min_x; x <= max_x; x++) {
+      int color = buffer[pair<int, int>(x, y)];
+      if (color == 1)
+        ofs << "0" << " ";
+      else
+        ofs << "1" << " ";
+    }
+    ofs << endl;
+  }
 }
