@@ -88,7 +88,7 @@ void FrameBuffer::print(string filename) {
   ofs << "P1" << endl;
   ofs << max_x - min_x  + 1 << " " << max_y - min_y + 1 << endl;
 
-  for (int y = min_y; y <= max_y; y++) {
+  for (int y = max_y; y >= min_y; y--) {
     for(int x = min_x; x <= max_x; x++) {
       int color = buffer[pair<int, int>(x, y)];
       if (color == 1)
