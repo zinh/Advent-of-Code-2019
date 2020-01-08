@@ -27,13 +27,13 @@ if (argc <= 1) {
   vector<string> titles;
   boost::algorithm::split(titles, output, [](char x) -> bool { return x == '\n';} );
   for (int i = 0; i < ((titles.size() - 1) / 3); i++) {
-    cout << titles[3 * i + 2] << endl;
+    //cout << titles[3 * i + 2] << endl;
     int x = stoi(titles[3 * i]);
     int y = stoi(titles[3 * i + 1]);
     int type = stoi(titles[3 * i + 2]);
     buffer.writeTo(x, y, type);
   }
-  cout << buffer.count_cell(2);
+  cout << buffer.count_cell(4);
 
   return 0;
 }

@@ -45,7 +45,7 @@ class FrameBuffer {
       return buffer.stat();
     }
 
-    void print(string filename);
+    void print();
     int count_cell(int type) {
       int c = 0;
       for (auto cell : buffer) {

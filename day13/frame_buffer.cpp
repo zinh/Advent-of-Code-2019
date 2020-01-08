@@ -1,6 +1,7 @@
 #include "frame_buffer.h"
 #include <iostream>
 #include <fstream>
+//#include <cstdio>
 
 void FrameBuffer::writeAndRotate(int val, int angle) {
   writeTo(pointer.x, pointer.y, val);
@@ -68,8 +69,8 @@ void FrameBuffer::forward(int step) {
   }
 }
 
-void FrameBuffer::print(string filename) {
-  ofstream ofs(filename, ios::out);
+void FrameBuffer::print() {
+  system("clear");
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
   for (const auto& item : buffer) {
     pair<int, int> position = item.first;
@@ -85,17 +86,30 @@ void FrameBuffer::print(string filename) {
     if (y > max_y)
       max_y = y;
   }
-  ofs << "P1" << endl;
-  ofs << max_x - min_x  + 1 << " " << max_y - min_y + 1 << endl;
 
-  for (int y = min_y; y <= max_y; y++) {
-    for(int x = min_x; x <= max_x; x++) {
+  cout << "\033[2J\033[1;1H";
+  //printf("top-left = (%d, %d), bottom-right = (%d, %d)\n", min_x, max_y, max_x, min_y);
+  for (int y = max_y; y >= min_y; y--) {
+    for(int x = min_x + 1; x <= max_x; x++) {
       int color = buffer[pair<int, int>(x, y)];
-      if (color == 1)
-        ofs << "0" << " ";
-      else
-        ofs << "1" << " ";
+      switch (color) {
+        case 0: // empty
+          cout << "·";
+          break;
+        case 1: // wall
+          cout << "█";
+          break;
+        case 2: // block
+          cout << "▒";
+          break;
+        case 3:
+          cout << "─";
+          break;
+        case 4:
+          cout << "O";
+          break;
+      }
     }
-    ofs << endl;
+    cout << "\n";
   }
 }

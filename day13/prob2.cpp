@@ -1,12 +1,30 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <chrono>
+#include <thread>
+
 #include <boost/algorithm/string/split.hpp>
 
 #include "machine.cpp"
 #include "frame_buffer.cpp"
 
 using namespace std;
+
+void update_buffer(string output, FrameBuffer& buffer) {
+  vector<string> titles;
+  boost::algorithm::split(titles, output, [](char x) -> bool { return x == '\n';} );
+  for (int i = 0; i < ((titles.size() - 1) / 3); i++) {
+    int x = stoi(titles[3 * i]);
+    int y = stoi(titles[3 * i + 1]);
+    if (x == -1 && y == 0) {
+      // TODO: print score
+      //continue;
+    }
+    int type = stoi(titles[3 * i + 2]);
+    buffer.writeTo(x, y, type);
+  }
+}
 
 int
 main(int argc, char** argv){
@@ -19,40 +37,19 @@ if (argc <= 1) {
 
   fstream fs(file_name);
   fs >> s;
-  Cpu<long> machine;
+  Cpu<int> machine;
   FrameBuffer buffer = FrameBuffer(0, 0);
 
   machine.load_program(s);
-  int color = 1;
-  buffer.writeTo(0, 0, 1);
-  while(true) {
-    string output = machine.resume(vector<int>{color});
-    vector<string> instructions;
-    boost::algorithm::split(instructions, output, [](char x) -> bool { return x == '\n';} );
-    machine.clo();
+  string output = machine.resume(vector<int>{});
+  update_buffer(output, buffer);
+  buffer.print();
 
-    int angle;
-    switch (stoi(instructions[1])) {
-      case 0:
-        angle = -90;
-        break;
-      case 1:
-        angle = 90;
-        break;
-      default:
-        throw runtime_error("Undefined color");
-    } 
-
-    // cout << "Color: " << instructions[0] << " Angle: " << angle << endl;
-    buffer.writeAndRotate(stoi(instructions[0]), angle);
-    color = buffer.currentColor();
-    //buffer.print("hello");
-    //break;
-
-    if (machine.is_halted())
-      break;
+  for (int i = 0; i < 10; i++) {
+    this_thread::sleep_for(std::chrono::milliseconds(1000));
+    output = machine.resume(vector<int>{0});
+    update_buffer(output, buffer);
+    buffer.print();
   }
-  //cout << "Stat: " << buffer.stat() << endl;
-  buffer.print("image.pbm");
   return 0;
 }
