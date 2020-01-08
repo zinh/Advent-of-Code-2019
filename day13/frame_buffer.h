@@ -54,9 +54,10 @@ class FrameBuffer {
       }
       return c;
     }
+
+    const pair<int, int>& get_point_by_type(int type);
   private:
     typedef pair<int, int> p;
     mmu<p, int, boost::hash<p>> buffer;
-    set<pair<int, int>> painted_cells;
     struct Pointer pointer;
 };

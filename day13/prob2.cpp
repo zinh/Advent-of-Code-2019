@@ -26,6 +26,28 @@ void update_buffer(string output, FrameBuffer& buffer) {
   }
 }
 
+const pair<int, int>& next_position(const Pointer& p, const FrameBuffer& buffer) {
+  switch (currentPosition.d) {
+    case Direction::up: 
+      {
+        buffer[pair<int, int>(p.x, p.y + 1)]
+        buffer[pair<int, int>(p.x + 1, p.y)]
+        break;
+      }
+    case Direction::down:
+      {
+        buffer[pair<int, int>(p.x, p.y - 1)]
+        buffer[pair<int, int>(p.x - 1, p.y)]
+        break;
+      }
+  }
+}
+
+void
+sleep(int milisec){
+  this_thread::sleep_for(std::chrono::milliseconds(milisec));
+}
+
 int
 main(int argc, char** argv){
 if (argc <= 1) {
@@ -40,13 +62,14 @@ if (argc <= 1) {
   Cpu<int> machine;
   FrameBuffer buffer = FrameBuffer(0, 0);
 
+  cout << "\033[2J\033[1;1H"; // clear screen
   machine.load_program(s);
   string output = machine.resume(vector<int>{});
   update_buffer(output, buffer);
   buffer.print();
 
   for (int i = 0; i < 10; i++) {
-    this_thread::sleep_for(std::chrono::milliseconds(1000));
+    sleep(1000);
     output = machine.resume(vector<int>{0});
     update_buffer(output, buffer);
     buffer.print();

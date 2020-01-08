@@ -70,8 +70,8 @@ void FrameBuffer::forward(int step) {
 }
 
 void FrameBuffer::print() {
-  system("clear");
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
+  cout << "\033[0;0H"; // \033[x;yH -> move cursor to row y, col x
   for (const auto& item : buffer) {
     pair<int, int> position = item.first;
     int x = position.first;
@@ -87,8 +87,6 @@ void FrameBuffer::print() {
       max_y = y;
   }
 
-  cout << "\033[2J\033[1;1H";
-  //printf("top-left = (%d, %d), bottom-right = (%d, %d)\n", min_x, max_y, max_x, min_y);
   for (int y = max_y; y >= min_y; y--) {
     for(int x = min_x + 1; x <= max_x; x++) {
       int color = buffer[pair<int, int>(x, y)];
@@ -112,4 +110,12 @@ void FrameBuffer::print() {
     }
     cout << "\n";
   }
+}
+
+const pair<int, int>& FrameBuffer::get_point_by_type(int type) {
+  for (auto& item : buffer) {
+    if (item.second == type)
+      return item.first;
+  }
+  return pair<int, int>{-1, -1};
 }
