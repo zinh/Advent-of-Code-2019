@@ -7,7 +7,7 @@ CFLAGS=
 all: clean default
 
 prob1.out: prob1.c lib.c
-	clang prob1.c lib.c -o prob1.out
+	clang -g prob1.c lib.c -o prob1.out
 
 default: $(SRC_FILES)
 	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRC_FILES) -o test.out
