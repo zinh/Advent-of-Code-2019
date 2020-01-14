@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "unity.h"
-#include "prob1.h"
+#include "lib.h"
 
 void setUp(void) {}
 void tearDown(void) {}

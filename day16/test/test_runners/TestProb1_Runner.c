@@ -2,7 +2,7 @@
 
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
-#include "prob1.h"
+#include "lib.h"
 #include <stdlib.h>
 
 /*=======External Functions This Runner Calls=====*/

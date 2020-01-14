@@ -1,10 +1,13 @@
 UNITY_ROOT=../lib/Unity-master
-SRC_FILES=$(UNITY_ROOT)/src/unity.c test/TestProb1.c test/test_runners/TestProb1_Runner.c prob1.c
+SRC_FILES=$(UNITY_ROOT)/src/unity.c test/TestProb1.c test/test_runners/TestProb1_Runner.c lib.c
 INC_DIRS=-I. -I$(UNITY_ROOT)/src
 C_COMPILER=clang
 CFLAGS=
 
 all: clean default
+
+prob1.out: prob1.c lib.c
+	clang prob1.c lib.c -o prob1.out
 
 default: $(SRC_FILES)
 	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRC_FILES) -o test.out
