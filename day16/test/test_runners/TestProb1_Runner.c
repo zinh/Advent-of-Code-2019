@@ -30,6 +30,9 @@ extern void test_caculate_phase_4(void);
 extern void test_caculate_phase_5(void);
 extern void test_caculate_phase_6(void);
 extern void test_caculate_phase_7(void);
+extern void test_duplicate_array(void);
+extern void test_duplicate_array_1(void);
+extern void test_duplicate_array_2(void);
 
 
 /*=======Mock Management=====*/
@@ -115,6 +118,9 @@ int main(void)
   run_test(test_caculate_phase_5, "test_caculate_phase_5", 163);
   run_test(test_caculate_phase_6, "test_caculate_phase_6", 172);
   run_test(test_caculate_phase_7, "test_caculate_phase_7", 181);
+  run_test(test_duplicate_array, "test_duplicate_array", 190);
+  run_test(test_duplicate_array_1, "test_duplicate_array_1", 196);
+  run_test(test_duplicate_array_2, "test_duplicate_array_2", 202);
 
   return UnityEnd();
 }

@@ -186,3 +186,22 @@ void test_caculate_phase_7(void) {
   TEST_ASSERT_EQUAL_INT_ARRAY(expected, output, 32);
   free(output);
 }
+
+void test_duplicate_array(void) {
+  int input[] = { 1, 2 };
+  int output[] = { 1, 2, 1, 2 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(output, duplicate_array(input, 2, 2), 4);
+}
+
+void test_duplicate_array_1(void) {
+  int input[] = { 1, 2 };
+  int output[] = { 1, 2 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(output, duplicate_array(input, 2, 1), 2);
+}
+
+void test_duplicate_array_2(void) {
+  int input[] = { 1, 2 };
+  int output[] = { 1, 2, 1, 2, 1, 2 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(output, duplicate_array(input, 2, 3), 6);
+}
+

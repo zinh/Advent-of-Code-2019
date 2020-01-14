@@ -74,3 +74,14 @@ int *calculate_phase(int *numbers, int size, int *pattern, int pattern_size) {
     new_numbers[pos] = calculate_element(numbers, size, pattern, pattern_size, pos + 1);
   return new_numbers;
 }
+
+// [1,2], 2 times -> [1, 2, 1, 2]
+// [1,2], 3 times -> [1, 2, 1, 2, 1, 2]
+int *duplicate_array(int *input, int size, int times) {
+  int *result = malloc(sizeof(int) * times * size);
+  for (int t = 0; t < times; t++) {
+    for (int i = 0; i < size; i++)
+      result[size * t + i] = input[i];
+  }
+  return result;
+}

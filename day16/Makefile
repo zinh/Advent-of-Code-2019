@@ -6,8 +6,11 @@ CFLAGS=
 
 all: clean default
 
+prob2.out: prob2.c lib.c
+	$(C_COMPILER) $(CFLAGS) prob2.c lib.c -o prob2.out
+
 prob1.out: prob1.c lib.c
-	clang -g prob1.c lib.c -o prob1.out
+	$(C_COMPILER) $(CFLAGS) prob1.c lib.c -o prob1.out
 
 default: $(SRC_FILES)
 	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRC_FILES) -o test.out
@@ -20,4 +23,4 @@ test/test_runners/TestProb1_Runner.c: test/TestProb1.c
 	ruby $(UNITY_ROOT)/auto/generate_test_runner.rb test/TestProb1.c  test/test_runners/TestProb1_Runner.c
 
 clean:
-	rm -f *.out
+	rm -rf *.out *.out.dSYM
