@@ -14,7 +14,7 @@ read_file(char *file_name, int **result) {
   while ((c = getc(fd)) != '\n') {
     if (size >= max_size) {
       max_size += 10;
-      numbers = realloc(numbers, max_size);
+      numbers = realloc(numbers, sizeof(int) * max_size);
     }
     numbers[size++] = c - '0';
   }
