@@ -3,7 +3,7 @@
 
 #include "lib.h"
 
-extern int pattern_size;;
+int pattern_size = 4;
 
 int
 main(int argc, char* argv[]) {

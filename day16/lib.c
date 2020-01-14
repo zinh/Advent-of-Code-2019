@@ -3,9 +3,6 @@
 
 #include "lib.h"
 
-int pattern_size = 4;
-int read_file(char *, int **);
-
 int
 read_file(char *file_name, int **result) {
   FILE *fd = fopen(file_name, "r");
