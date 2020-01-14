@@ -44,14 +44,20 @@ duplicate_pattern(int *pattern, int pattern_size, int repeat_count) {
   return result;
 }
 
+int *extend_pattern(int *pattern, int pattern_size, int repeat_count, int input_size) {
+  int *duplicated_pattern = duplicate_pattern(pattern, pattern_size, repeat_count);
+  int *repeated = repeat_pattern(duplicated_pattern, pattern_size * repeat_count, input_size + 1);
+  return repeated;
+}
+
 int
 calculate_element(int input[], int input_size, int pattern[], int pattern_size, int element_position) {
-  int *duplicated_pattern = duplicate_pattern(pattern, pattern_size, element_position);
-  int *repeated = repeat_pattern(duplicated_pattern, pattern_size * element_position, input_size + 1);
+  int *repeated = extend_pattern(pattern, pattern_size, element_position, input_size);
   int sum = 0;
   for(int i = 0; i < input_size; i++)
     sum += (repeated[i + 1] * input[i]);
-  return abs(sum % 10);
+  free(repeated);
+  return abs(sum) % 10;
 }
 
 void print_phase(int *numbers, int size) {

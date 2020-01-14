@@ -16,6 +16,13 @@ extern void test_duplicate_pattern_2(void);
 extern void test_duplicate_pattern_3(void);
 extern void test_calculate_element(void);
 extern void test_calculate_element_1(void);
+extern void test_calculate_element_2(void);
+extern void test_extend_pattern_1(void);
+extern void test_extend_pattern_2(void);
+extern void test_extend_pattern_3(void);
+extern void test_extend_pattern_4(void);
+extern void test_extend_pattern_5(void);
+extern void test_extend_pattern_6(void);
 extern void test_caculate_phase_1(void);
 extern void test_caculate_phase_2(void);
 extern void test_caculate_phase_3(void);
@@ -91,10 +98,17 @@ int main(void)
   run_test(test_duplicate_pattern_3, "test_duplicate_pattern_3", 57);
   run_test(test_calculate_element, "test_calculate_element", 66);
   run_test(test_calculate_element_1, "test_calculate_element_1", 74);
-  run_test(test_caculate_phase_1, "test_caculate_phase_1", 82);
-  run_test(test_caculate_phase_2, "test_caculate_phase_2", 91);
-  run_test(test_caculate_phase_3, "test_caculate_phase_3", 100);
-  run_test(test_caculate_phase_4, "test_caculate_phase_4", 109);
+  run_test(test_calculate_element_2, "test_calculate_element_2", 82);
+  run_test(test_extend_pattern_1, "test_extend_pattern_1", 91);
+  run_test(test_extend_pattern_2, "test_extend_pattern_2", 97);
+  run_test(test_extend_pattern_3, "test_extend_pattern_3", 103);
+  run_test(test_extend_pattern_4, "test_extend_pattern_4", 109);
+  run_test(test_extend_pattern_5, "test_extend_pattern_5", 115);
+  run_test(test_extend_pattern_6, "test_extend_pattern_6", 121);
+  run_test(test_caculate_phase_1, "test_caculate_phase_1", 127);
+  run_test(test_caculate_phase_2, "test_caculate_phase_2", 136);
+  run_test(test_caculate_phase_3, "test_caculate_phase_3", 145);
+  run_test(test_caculate_phase_4, "test_caculate_phase_4", 154);
 
   return UnityEnd();
 }

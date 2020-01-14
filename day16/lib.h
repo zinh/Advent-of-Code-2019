@@ -7,5 +7,6 @@ int* duplicate_pattern(int *pattern, int pattern_size, int repeat_count);
 int calculate_element(int input[], int input_size, int pattern[], int pattern_size, int element_position);
 void print_phase(int *, int);
 int *calculate_phase(int *numbers, int size, int *pattern, int pattern_size);
+int *extend_pattern(int *pattern, int pattern_size, int repeat_count, int input_size);
 
 #endif

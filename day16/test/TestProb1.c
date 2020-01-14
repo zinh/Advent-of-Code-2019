@@ -79,6 +79,51 @@ void test_calculate_element_1(void) {
     TEST_ASSERT_EQUAL(expected[i], calculate_element(input, 8, pattern, 4, i + 1));
 }
 
+void test_calculate_element_2(void) {
+  int input[] = { 8, 0, 8, 7, 1, 2, 2, 4, 5, 8, 5, 9, 1, 4, 5, 4, 6, 6, 1, 9, 0, 8, 3, 2, 1, 8, 6, 4, 5, 5, 9, 5 };
+  int pattern[] = { 0, 1, 0, -1 };
+  TEST_ASSERT_EQUAL(2, calculate_element(input, 32, pattern, 4, 1));
+  TEST_ASSERT_EQUAL(4, calculate_element(input, 32, pattern, 4, 2));
+  TEST_ASSERT_EQUAL(7, calculate_element(input, 32, pattern, 4, 3));
+  TEST_ASSERT_EQUAL(0, calculate_element(input, 32, pattern, 4, 4));
+}
+
+void test_extend_pattern_1(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0, 1, 0, -1 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 1, 4), 4);
+}
+
+void test_extend_pattern_2(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0, 0, 1, 1, 0, 0, -1, -1};
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 2, 8), 8);
+}
+
+void test_extend_pattern_3(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0, 0, 1, 1, 0, 0, -1 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 2, 7), 7);
+}
+
+void test_extend_pattern_4(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0, 0, 1, 1, 0, 0, -1, -1, 0, 0 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 2, 10), 10);
+}
+
+void test_extend_pattern_5(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 8, 10), 10);
+}
+
+void test_extend_pattern_6(void) {
+  int pattern[] = { 0, 1, 0, -1 };
+  int expected[] = { 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0 };
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, extend_pattern(pattern, 4, 8, 20), 20);
+}
+
 void test_caculate_phase_1(void) {
   int input[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
   int pattern[] = { 0, 1, 0, -1};
