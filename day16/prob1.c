@@ -24,11 +24,9 @@ main(int argc, char* argv[]) {
     int *new_numbers = calculate_phase(numbers, size, pattern, pattern_size);
     free(numbers);
     numbers = new_numbers;
-
-    printf("Phase %d: ", i + 1);
-    print_phase(numbers, size);
   }
 
+  print_phase(numbers, size);
   free(numbers);
   return EXIT_SUCCESS;
 }

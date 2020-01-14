@@ -159,3 +159,30 @@ void test_caculate_phase_4(void) {
   TEST_ASSERT_EQUAL_INT_ARRAY(expected, output, 8);
   free(output);
 }
+
+void test_caculate_phase_5(void) {
+  int input[] = { 8,0,8,7,1,2,2,4,5,8,5,9,1,4,5,4,6,6,1,9,0,8,3,2,1,8,6,4,5,5,9,5 };
+  int pattern[] = { 0, 1, 0, -1};
+  int expected[] = { 2,4,7,0,6,8,6,1,3,0,0,6,0,3,8,7,8,2,6,5,6,6,8,5,3,2,4,8,4,9,4,5 };
+  int *output = calculate_phase(input, 32, pattern, 4);
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, output, 32);
+  free(output);
+}
+
+void test_caculate_phase_6(void) {
+  int input[] = { 2,4,7,0,6,8,6,1,3,0,0,6,0,3,8,7,8,2,6,5,6,6,8,5,3,2,4,8,4,9,4,5 };
+  int pattern[] = { 0, 1, 0, -1};
+  int expected[] = { 1,7,9,3,4,3,8,8,1,2,1,5,7,3,2,7,5,7,5,9,4,8,2,4,9,6,4,0,2,8,9,5 };
+  int *output = calculate_phase(input, 32, pattern, 4);
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, output, 32);
+  free(output);
+}
+
+void test_caculate_phase_7(void) {
+  int input[] = { 3,6,2,5,7,0,9,1,9,4,7,2,6,3,6,3,5,0,7,4,7,5,1,1,3,2,2,4,0,6,4,5,0 };
+  int pattern[] = { 0, 1, 0, -1};
+  int expected[] = { 2,4,1,7,6,1,7,6,4,8,0,9,1,9,0,4,6,1,1,4,0,3,8,7,6,3,1,9,5,5,9,5 };
+  int *output = calculate_phase(input, 32, pattern, 4);
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected, output, 32);
+  free(output);
+}

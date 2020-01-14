@@ -7,5 +7,5 @@ ARGV[1].to_i.times do
     pattern[1..-1].first(arr.size).zip(arr).map{|i| i.first * i.last}.sum.abs % 10
   end
   arr = result
+  puts arr.join
 end
-puts arr.first(8).join
